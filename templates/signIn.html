@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Sign In Page</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <link href="../static/signIn.css" rel="stylesheet"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/additional-methods.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="../static/js/script.js"></script>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="header">
+        <nav>
+          <ul class="nav nav-pills pull-right">
+            <li role="presentation" ><a href="/">Home</a></li>
+          </ul>
+        </nav>
+            <h3 class="text-muted" style="color:black">Welcome Back!</h3>
+        </div>
+
+        <div class="jumbotron">
+            <h2 style="margin-left:430px">Enter details</h2>
+            <form class="form-signin" id="signInForm" action="#">
+                <br>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <label style="padding-top:10px;">Username<span style="color:red">*</span></label>
+                    </div>
+                    <div class="col-sm-6">
+                        <input style="align:left" type="name" name="userName" id="userName" class="form-control" placeholder="Username" required autofocus maxlength="30">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <label style="padding-top:10px;">password<span style="color:red">*</span></label>
+                    </div>
+                    <div class="col-sm-6">
+                        <input type="password" id="password" class="form-control" name="password" placeholder="password" required autofocus>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <button id="btnSignIn" class="btn btn-md btn-success btn-block" type="button">SignIn</button>
+                    </div>
+                    <div class="col-sm-6">
+                        <button id="btnResetSignIn" class="btn btn-md btn-primary btn-block" type="button">Reset</button>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</body>
+</html>

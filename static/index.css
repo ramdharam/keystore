@@ -1,0 +1,13 @@
+/* home.css*/
+.jumbotron {
+    /*background-color:  #0084b4; /* Orange */
+    background-size: 500px 800px;
+    align:center;
+    /*color: #ffffff; */
+}
+p {
+text-align: center;
+}
+h1 {
+text-align: center;
+}

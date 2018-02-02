@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Home Page</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <link href="../static/signIn.css" rel="stylesheet"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/additional-methods.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="../static/js/script.js"></script>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="header">
+            <nav>
+                {% if userName %}
+                    {% set url = "/showAddUserKeys/" + userName %}
+                {% endif %}
+                <ul class="nav nav-pills pull-right">
+                    <li role="presentation"><a href={{url}}>Add Key</a></li>
+                    <li role="presentation" ><a href="/">Logout</a></li>
+                </ul>
+            </nav>
+            {% if userName %}
+                <h3 class="text-muted" style="color:black">Hello {{ userName }} !</h3>
+            {% else %}
+                <h3 class="text-muted" style="color:black">Homepage</h3>
+            {% endif %}
+        </div>
+
+    </div>
+</body>
+</html>
