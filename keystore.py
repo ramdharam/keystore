@@ -181,6 +181,7 @@ def showUserHomePage(userName):
                 cur = conn.cursor()
                 cur.callproc('getUserKeys',[int(userId)])
                 data = cur.fetchall()
+                print(type(data))
                 print (data)
     except Exception as e:
         print(e)

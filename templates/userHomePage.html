@@ -32,20 +32,34 @@
             {% endif %}
 
             <div class="jumbotron-fluid">
-                <tr>
-                    <td>Key</td>
-                    <td>Hint</td>
-                    <td>Password</td>
-                    <td>Salt</td>
-                </tr>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <label>Key</label>
+                    </div>
+                    <div class="col-sm-3">
+                        <label>Hint</label>
+                    </div>
+                    <div class="col-sm-3">
+                        <label hidden>Password</label>
+                    </div>
+                    <div class="col-sm-1">
+                        <label hidden>Passwordsalt</label>
+                    </div>
+                    <div class="col-sm-2">
+                        <label hidden>PasswordHash</label>
+                    </div>
+                </div>
                 <br>
                 {% for item in data %}
-                <tr>
-                    <td>{{item[2]}}</td>
-                    <td>{{item[5]}}</td>
-                    <td>{{item[3]}}</td>
-                    <td>{{item[4]}}</td>
-                </tr>
+                <div class="row">
+                    <div class="col-sm-3">{{item[2]}}</div>
+                    <div class="col-sm-3">{{item[5]}}</div>
+                    <div class="col-sm-3">
+                        <button type="button" value={{item[2]}}>show Password</button>
+                    </div>
+                    <div class="col-sm-1" hidden>{{item[4]}}</div>
+                    <div class="col-sm-2" hidden>{{item[3]}}</div>
+                </div>
                 {% endfor %}
             </div>
         </div>
