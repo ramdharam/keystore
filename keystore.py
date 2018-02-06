@@ -168,7 +168,26 @@ def showResetPasswordPage():
 
 @app.route('/showUserHomePage/<userName>')
 def showUserHomePage(userName):
-    return render_template('userHomePage.html', userName= userName)
+    try:
+        _userName = userName
+        if _userName:
+            conn = mysql.connect()
+            cur = conn.cursor()
+            cur.callproc( 'getUserId',[_userName])
+            result = cur.fetchall()
+            cur.close()
+            if result[0][0]=='S':
+                userId = result[0][2]
+                cur = conn.cursor()
+                cur.callproc('getUserKeys',[int(userId)])
+                data = cur.fetchall()
+                print (data)
+    except Exception as e:
+        print(e)
+    finally:
+        if conn.open:
+            conn.close()
+    return render_template('userHomePage.html', userName= _userName, data= data)
 
 @app.route('/showAddUserKeys/<userName>')
 def showAddUserKeys(userName):

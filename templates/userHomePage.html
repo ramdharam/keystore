@@ -30,6 +30,24 @@
             {% else %}
                 <h3 class="text-muted" style="color:black">Homepage</h3>
             {% endif %}
+
+            <div class="jumbotron-fluid">
+                <tr>
+                    <td>Key</td>
+                    <td>Hint</td>
+                    <td>Password</td>
+                    <td>Salt</td>
+                </tr>
+                <br>
+                {% for item in data %}
+                <tr>
+                    <td>{{item[2]}}</td>
+                    <td>{{item[5]}}</td>
+                    <td>{{item[3]}}</td>
+                    <td>{{item[4]}}</td>
+                </tr>
+                {% endfor %}
+            </div>
         </div>
 
     </div>
