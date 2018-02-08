@@ -181,8 +181,17 @@ def showUserHomePage(userName):
                 cur = conn.cursor()
                 cur.callproc('getUserKeys',[int(userId)])
                 data = cur.fetchall()
-                print(type(data))
-                print (data)
+                #print(type(data))
+                #print (data)
+                data = list(data)
+                result_set = []
+                for item in data:
+                    res = list(item)
+                    res.append(retrivePassFromHash( str(item[3]) , str(_userName), str(item[4]) ))
+                    result_set.append(res)
+                #print (data)
+                data = tuple(result_set)
+                #print(data)
     except Exception as e:
         print(e)
     finally:

@@ -75,4 +75,26 @@ $(function() {
         $('#addKeyForm')[0].reset();
     });
 
+   /* $('.showPasswordBtn').click(function(){
+        $(this).html($(this).html() == 'Show Password' ? 'this html' : 'Show Password');
+    }); */
+
+
+    $('.showPasswordBtn').click(function(){
+        var $row = $(this).closest('tr')
+        if ($(this).html() == 'Show Password') {
+            $row.find('.UserPassword').show();
+            $(this).html('Hide Password');
+        }
+        else {
+            $row.find('.UserPassword').hide();
+            $(this).html('Show Password');
+        };
+    });
+
+   /* $("input:checkbox:not(:checked)").each(function() {
+    var column = "table ." + $(this).attr("name");
+    $(column).hide();
+    }); */
+
 });

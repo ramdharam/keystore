@@ -31,36 +31,43 @@
                 <h3 class="text-muted" style="color:black">Homepage</h3>
             {% endif %}
 
-            <div class="jumbotron-fluid">
-                <div class="row">
-                    <div class="col-sm-3">
-                        <label>Key</label>
-                    </div>
-                    <div class="col-sm-3">
-                        <label>Hint</label>
-                    </div>
-                    <div class="col-sm-3">
-                        <label hidden>Password</label>
-                    </div>
-                    <div class="col-sm-1">
-                        <label hidden>Passwordsalt</label>
-                    </div>
-                    <div class="col-sm-2">
-                        <label hidden>PasswordHash</label>
-                    </div>
-                </div>
+            <div class="jumbotron">
+                <h3> Here are all your keys</h3>
                 <br>
-                {% for item in data %}
-                <div class="row">
-                    <div class="col-sm-3">{{item[2]}}</div>
-                    <div class="col-sm-3">{{item[5]}}</div>
-                    <div class="col-sm-3">
-                        <button type="button" value={{item[2]}}>show Password</button>
-                    </div>
-                    <div class="col-sm-1" hidden>{{item[4]}}</div>
-                    <div class="col-sm-2" hidden>{{item[3]}}</div>
-                </div>
-                {% endfor %}
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <div class="col-sm-3">
+                                <th>Key</th>
+                            </div>
+                            <div class="col-sm-3">
+                                <th>Hint</th>
+                            </div>
+                            <div class="col-sm-3">
+                                <th>Password</th>
+                            </div>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in data %}
+                        <tr class="passwordRow">
+                            <div class="col-sm-3">
+                                <th>{{item[0]}}</th>
+                            </div>
+                            <div class="col-sm-3">
+                                <th>{{item[5]}}</th>
+                            </div>
+                            <div class="col-sm-3">
+                                <th hidden class="UserPassword">{{item[6]}}</th>
+                            </div>
+                            <div class="col-sm-3">
+                                <th><button class="showPasswordBtn">Show Password</button></th>
+                            </div>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% set i = 0 %}
             </div>
         </div>
 
