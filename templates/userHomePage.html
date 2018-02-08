@@ -18,11 +18,11 @@
         <div class="header">
             <nav>
                 {% if userName %}
-                    {% set url = "/showAddUserKeys/" + userName %}
+                    {% set url = "/showAddUserKeys"  %}
                 {% endif %}
                 <ul class="nav nav-pills pull-right">
                     <li role="presentation"><a href={{url}}>Add Key</a></li>
-                    <li role="presentation" ><a href="/">Logout</a></li>
+                    <li role="presentation" ><a href="/logout">Logout</a></li>
                 </ul>
             </nav>
             {% if userName %}
@@ -52,16 +52,16 @@
                         {% for item in data %}
                         <tr class="passwordRow">
                             <div class="col-sm-3">
-                                <th>{{item[0]}}</th>
+                                <th>{{item[2]}}</th>
                             </div>
                             <div class="col-sm-3">
                                 <th>{{item[5]}}</th>
                             </div>
                             <div class="col-sm-3">
-                                <th hidden class="UserPassword">{{item[6]}}</th>
+                                <th><button class="showPasswordBtn">Show Password</button></th>
                             </div>
                             <div class="col-sm-3">
-                                <th><button class="showPasswordBtn">Show Password</button></th>
+                                <th hidden class="UserPassword">{{item[6]}}</th>
                             </div>
                         </tr>
                         {% endfor %}

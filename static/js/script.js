@@ -28,7 +28,7 @@ $(function() {
     });
 
     $('#btnSignIn').click(function() {
-        var user = $('#userName').val();
+        //var user = $('#userName').val();
         $.ajax({
             url: '/signIn',
             data: $('form').serialize(),
@@ -36,7 +36,7 @@ $(function() {
             success: function(response) {
                 console.log(response);
                 alert(response)
-                next_page_url = "/showUserHomePage/" + user
+                next_page_url = "/showUserHomePage"
                 console.log(next_page_url);
                 window.location.href = next_page_url
             },
@@ -49,9 +49,9 @@ $(function() {
 
 
     $('#btnAddKey').click(function() {
-        var userName = $('#userName').val();
+        //var userName = $('#userName').val();
         $.ajax({
-            url:'/addUserKeys/' + userName,
+            url:'/addUserKeys',
             data: $('form').serialize(),
             type:'POST',
             success: function(response){
@@ -60,9 +60,9 @@ $(function() {
                 //alert(escape(response));
                 //alert(escape('{"Message": "Key added successfully"}'));
                 if (escape(response) == escape('{"Message": "Key added successfully"}') ) {
-                document.location.href="/showUserHomePage/" + userName;
+                document.location.href="/showUserHomePage";
                 }
-                else { document.location.href="/showAddUserKeys/" + userName; }
+                else { document.location.href="/showAddUserKeys" }
             },
             error: function(error){
                 console.log(error)

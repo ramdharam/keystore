@@ -1,6 +1,7 @@
-from flask import Flask, render_template, request, json, redirect
+from flask import Flask, render_template, request, json, session
 from flaskext.mysql import MySQL
 import random
+import os
 from werkzeug import generate_password_hash, check_password_hash
 
 import base64
@@ -137,6 +138,7 @@ def signIn():
             result = cur.fetchone()
             if result[0]=='S':
                 if validateUserPass(_password, result[2]):
+                    session['username'] = _username
                     conn.commit()
                     cur.close()
                     conn.close()
@@ -161,82 +163,98 @@ def signIn():
         if conn.open:
             conn.close()
 
+@app.route('/logout')
+def logout():
+    session.pop('username', None)
+    return render_template('index.html')
 
 @app.route('/showResetPasswordPage', methods=['POST'])
 def showResetPasswordPage():
     return render_template('resetPassword.html')
 
-@app.route('/showUserHomePage/<userName>')
-def showUserHomePage(userName):
-    try:
-        _userName = userName
-        if _userName:
-            conn = mysql.connect()
-            cur = conn.cursor()
-            cur.callproc( 'getUserId',[_userName])
-            result = cur.fetchall()
-            cur.close()
-            if result[0][0]=='S':
-                userId = result[0][2]
+@app.route('/showUserHomePage')
+def showUserHomePage():
+    if session['username']:
+        userName = session['username']
+        try:
+            _userName = userName
+            if _userName:
+                conn = mysql.connect()
                 cur = conn.cursor()
-                cur.callproc('getUserKeys',[int(userId)])
-                data = cur.fetchall()
-                #print(type(data))
-                #print (data)
-                data = list(data)
-                result_set = []
-                for item in data:
-                    res = list(item)
-                    res.append(retrivePassFromHash( str(item[3]) , str(_userName), str(item[4]) ))
-                    result_set.append(res)
-                #print (data)
-                data = tuple(result_set)
-                #print(data)
-    except Exception as e:
-        print(e)
-    finally:
-        if conn.open:
-            conn.close()
-    return render_template('userHomePage.html', userName= _userName, data= data)
+                cur.callproc( 'getUserId',[_userName])
+                result = cur.fetchall()
+                cur.close()
+                if result[0][0]=='S':
+                    userId = result[0][2]
+                    cur = conn.cursor()
+                    cur.callproc('getUserKeys',[int(userId)])
+                    data = cur.fetchall()
+                    #print(type(data))
+                    #print (data)
+                    data = list(data)
+                    result_set = []
+                    for item in data:
+                        res = list(item)
+                        res.append(retrivePassFromHash( str(item[3]) , str(_userName), str(item[4]) ))
+                        result_set.append(res)
+                    #print (data)
+                    data = tuple(result_set)
+                    #print(data)
+        except Exception as e:
+            print(e)
+        finally:
+            if conn.open:
+                conn.close()
+        return render_template('userHomePage.html', userName= _userName, data= data)
+    else:
+        return render_template('errorPage.html')
 
-@app.route('/showAddUserKeys/<userName>')
-def showAddUserKeys(userName):
+@app.route('/showAddUserKeys')
+def showAddUserKeys():
+    userName = session['username']
     return render_template('addUserKeys.html', userName = userName)
 
-@app.route('/addUserKeys/<userName>', methods=['POST'])
-def addUserKeys(userName):
-    try:
-        _key = request.form['key']
-        _password = request.form['password']
-        _keyHint = request.form['keyHint']
-        _username = userName
+@app.route('/addUserKeys', methods=['POST'])
+def addUserKeys():
+    if session['username']:
+        userName = session['username']
+        try:
+            _key = request.form['key']
+            _password = request.form['password']
+            _keyHint = request.form['keyHint']
+            _username = userName
 
-        if _key and _password and _username:
-            result = generateKeyPassHash(_password, _username)
-            conn = mysql.connect()
-            cur = conn.cursor()
-            _args = (_username, _key, unicode(result[0]), str(result[1]), _keyHint)
-            print (_args)
-            cur.callproc('addUserKeys', _args)
-            result = cur.fetchone()
+            if _key and _password and _username:
+                result = generateKeyPassHash(_password, _username)
+                conn = mysql.connect()
+                cur = conn.cursor()
+                _args = (_username, _key, unicode(result[0]), str(result[1]), _keyHint)
+                print (_args)
+                cur.callproc('addUserKeys', _args)
+                result = cur.fetchone()
 
-            if result[0]=='S':
-                conn.commit()
-                cur.close()
+                if result[0]=='S':
+                    conn.commit()
+                    cur.close()
+                    conn.close()
+                    return json.dumps({'Message': 'Key added successfully'})
+                else:
+                    conn.rollback()
+                    cur.close()
+                    conn.close()
+                    return json.dumps({'Error': result[1]})
+        except Exception as e:
+            print (e)
+            return json.dumps({'Error':str(e)})
+        finally:
+            if conn.open:
                 conn.close()
-                return json.dumps({'Message': 'Key added successfully'})
-            else:
-                conn.rollback()
-                cur.close()
-                conn.close()
-                return json.dumps({'Error': result[1]})
-    except Exception as e:
-        print (e)
-        return json.dumps({'Error':str(e)})
-    finally:
-        if conn.open:
-            conn.close()
+    else:
+        return render_template('errorPage.html')
 
 
 if __name__ == "__main__":
+    app.secret_key = os.urandom(16)
     app.run()
+
+
