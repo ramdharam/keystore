@@ -49,6 +49,7 @@ def generateKeyPassHash(password, username):
     except Exception as e:
         print(e)
         print ('exception')
+        return
 
 def retrivePassFromHash(hash_pass, username, salt):
     Userkey = bytes(username)
@@ -97,7 +98,7 @@ def registerUser():
             conn = mysql.connect()
             cur = conn.cursor()
             args = (_username, _hashed_password, _firstName, _lastName, _hint)
-            print(args)
+            #print(args)
             cur.callproc('createUser', args)
             result = cur.fetchall()
             if result[0][0] == 'S':
@@ -229,7 +230,7 @@ def addUserKeys():
                 conn = mysql.connect()
                 cur = conn.cursor()
                 _args = (_username, _key, unicode(result[0]), str(result[1]), _keyHint)
-                print (_args)
+                #print (_args)
                 cur.callproc('addUserKeys', _args)
                 result = cur.fetchone()
 
