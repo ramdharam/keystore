@@ -36,7 +36,11 @@ $(function() {
             success: function(response) {
                 console.log(response);
                 alert(response)
-                next_page_url = "/showUserHomePage"
+                if (escape(response) == escape('{"Message": "Logging you in"}')) {
+                    next_page_url = "/showUserHomePage" }
+                else {
+                    next_page_url = "/"
+                }
                 console.log(next_page_url);
                 window.location.href = next_page_url
             },

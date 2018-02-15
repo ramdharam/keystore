@@ -222,14 +222,14 @@ def addUserKeys():
         try:
             _key = request.form['key']
             _password = request.form['password']
-            _keyHint = request.form['keyHint']
+            _key_user = request.form['key_user']
             _username = userName
 
             if _key and _password and _username:
                 result = generateKeyPassHash(_password, _username)
                 conn = mysql.connect()
                 cur = conn.cursor()
-                _args = (_username, _key, unicode(result[0]), str(result[1]), _keyHint)
+                _args = (_username, _key, unicode(result[0]), str(result[1]), _key_user)
                 #print (_args)
                 cur.callproc('addUserKeys', _args)
                 result = cur.fetchone()
